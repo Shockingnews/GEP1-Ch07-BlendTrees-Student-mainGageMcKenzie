@@ -18,7 +18,11 @@ public class PlayerController : MonoBehaviour
     private int LastMoveInputXHash = Animator.StringToHash("LastMoveX");
     private int LastMoveInputYHash = Animator.StringToHash("LastMoveY");
 
+    private int Emoteing = Animator.StringToHash("isEmoteing");
+
     private Vector2 LastInput;
+
+    private bool isEmoteing = false;
     
 
 
@@ -52,6 +56,11 @@ public class PlayerController : MonoBehaviour
         moveInput = context.ReadValue<Vector2>();
         
     }
+    public void OnEmote(InputAction.CallbackContext context)
+    {
+        isEmoteing = true;
+
+    }
 
     private void HandlePlayerMovement()
     {
@@ -66,6 +75,7 @@ public class PlayerController : MonoBehaviour
             playerAnimatorController.SetFloat(MoveInputYHash, moveInput.y);
             playerAnimatorController.SetBool(IsMovingHash, true);
             LastInput = moveInput;
+            playerAnimatorController.SetBool(Emoteing, false);
 
 
         }
@@ -84,6 +94,14 @@ public class PlayerController : MonoBehaviour
             
             
         }
+        if(Input.GetKeyDown(KeyCode.LeftControl) && moveInput == Vector2.zero)
+        {
+            playerAnimatorController.SetBool(Emoteing, true);
+            
+            Debug.Log("made it in");
+        }
+        
+        
     }
 
 
